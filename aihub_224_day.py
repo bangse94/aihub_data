@@ -7,11 +7,11 @@ def convert_annotation_to_yolo_format(annotation, image_width, image_height):
     yolo_annotation = []
     
     for ann in annotation:
-        category_id = ann["property"]["category_id"]
-        xmin = ann["bndbox"]["xmin"]
-        ymin = ann["bndbox"]["ymin"]
-        xmax = ann["bndbox"]["xmax"]
-        ymax = ann["bndbox"]["ymax"]
+        category_id = ann["category_id"]
+        xmin = ann["bbox"]["xmin"]
+        ymin = ann["bbox"]["ymin"]
+        xmax = ann["bbox"]["xmax"]
+        ymax = ann["bbox"]["ymax"]
         
         x_center = (xmin + xmax) / 2
         y_center = (ymin + ymax) / 2
@@ -32,8 +32,8 @@ def main(source_dir, target_dir):
                 with open(os.path.join(root, file), "r") as f:
                     data = json.load(f)
                 print(f"{root}, {file}")
-                image_info = data['images']
-                annotations = data['annotation']
+                image_info = data['images'][0]
+                annotations = data['annotations']
                 image_width = image_info['width']
                 image_height = image_info['height']
                 image_file_name = image_info['file_name']
