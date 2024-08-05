@@ -8,10 +8,11 @@ def convert_annotation_to_yolo_format(annotation, image_width, image_height):
     
     for ann in annotation:
         category_id = ann["category_id"]
-        xmin = ann["bbox"]["xmin"]
-        ymin = ann["bbox"]["ymin"]
-        xmax = ann["bbox"]["xmax"]
-        ymax = ann["bbox"]["ymax"]
+        x, y, w, h = ann["bbox"]
+        xmin = x
+        ymin = y
+        xmax = x + w
+        ymax = y + h
         
         x_center = (xmin + xmax) / 2
         y_center = (ymin + ymax) / 2
