@@ -51,3 +51,12 @@ def main(source_dir, target_dir):
                         f.write(line + "\n")
                         
     print("Transformation completed.")
+    
+    
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Convert AIHub 224 Day dataset to YOLO format")
+    parser.add_argument("--source_dir", type=str, required=True, help="Path to the AIHub 224 Day dataset")
+    parser.add_argument("--target_dir", type=str, required=True, help="Path to the target directory")
+    
+    args = parser.parse_args()
+    main(args.source_dir, args.target_dir)
