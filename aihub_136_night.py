@@ -5,7 +5,7 @@ import argparse
 
 
 def convert_annotation_to_yolo_format(annotation, image_width, image_height):
-    yolo_annotation = []
+    yolo_annotations = []
     
     for ann in annotation:
         category_id = ann["property"]["category_id"]
