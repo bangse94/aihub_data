@@ -32,10 +32,10 @@ def main(source_dir, target_dir):
                 with open(os.path.join(root, file), "r") as f:
                     data = json.load(f)
                 print(f"{root}, {file}")
-                image_info = data['image']
+                image_info = data['images']
                 annotations = data['annotation']
-                image_width = image_info['size']['width']
-                image_height = image_info['size']['height']
+                image_width = image_info['width']
+                image_height = image_info['height']
                 image_file_name = image_info['file_name']
                 
                 image_path = os.path.join(root, image_file_name)
