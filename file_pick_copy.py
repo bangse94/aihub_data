@@ -3,10 +3,19 @@ import shutil
 import json
 import argparse
 
-def copy_files(source_dir: str, target_dir: str) -> None:
-    pass
-    
+
 def main(source_dir: str, target_dir: str, data_num: int) -> None:
+    '''
+    copy files from original AIHub dataset to target directory
+    
+    Args:
+        source_dir: str, path to the AIHub dataset
+        target_dir: str, path to the target directory
+        data_num: int, number of data to be copied
+    
+    Returns:
+        None
+    '''
     
     if data_num == 224:
         mode = 1
@@ -15,18 +24,25 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
     
     for root, dirs, files in os.walk(source_dir):
         for file in files:
+            print(file)
             file_name = file.split(".")[0]
             file_name_list = file_name.split("_")
             if mode == 1:
                 if file_name_list[1] == "NOR":
-                    shutil.copy(os.path.join(root, file), os.path.join(target_dir, file))
+                    if file.endswith(".txt"):
+                        shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/labels', file))
+                    else:
+                        shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/images', file))
             else:
                 if file_name_list[2] == "IR":
-                    shutil.copy(os.path.join(root, file), os.path.join(target_dir, file))
+                    if file.endswith(".txt"):
+                        shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/labels', file))
+                    else:
+                        shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/images', file))
     
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert AIHub 224 Day dataset to YOLO format")
-    parser.add_argument("--source_dir", type=str, required=True, help="Path to the AIHub 224 Day dataset")
+    parser = argparse.ArgumentParser(description="Copy files from AIHub dataset")
+    parser.add_argument("--source_dir", type=str, required=True, help="Path to the AIHub dataset")
     parser.add_argument("--target_dir", type=str, required=True, help="Path to the target directory")
     parser.add_argument("--data_num", type=int, required=True, help="Number of data to be copied")
     
