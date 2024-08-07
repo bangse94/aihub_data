@@ -1,40 +1,52 @@
 import cv2
 import os
 
-def draw_bounding_boxes(image_dir, label_dir):
-    image_files = os.listdir(image_dir)
-    label_files = os.listdir(label_dir)
 
-    for label_file in label_files:
-        image_file = label_file.replace(".txt", ".jpg")
-        if image_file not in image_files:
-            continue
+def main(image_dir: str, label_dir: str, target_dir: str) -> None:
+    '''
+    draw bounding boxes on images
+    
+    Args:
+        image_dir: str, path to the directory containing images
+        label_dir: str, path to the directory containing label files
+        target_dir: str, path to the target directory to save modified label files
+        
+    Returns:
+        None
+    '''
+    
+    gpu_image = cv2.cuda_GpuMat()
+    
+    for root, dirs, files in os.walk(image_dir):
+        for file in files:
+            if file.endswith(".jpg"):
+                image = cv2.imread(os.path.join(root, file))
+                gpu_image.upload(image)
+                
+                h, w, _ = image.shape
+                
+                with open(os.path.join(label_dir, file.replace(".jpg", ".txt")), 'r') as f:
+                    lines = f.readlines()
+                
+                for line in lines:
+                    class_id, x, y, w, h = map(float, line.strip().split())
+                    x1 = int((x - w/2) * w)
+                    y1 = int((y - h/2) * h)
+                    x2 = int((x + w/2) * w)
+                    y2 = int((y + h/2) * h)
+                    cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                
+                gpu_image.download(image)
+                
+                cv2.imwrite(os.path.join(target_dir, file), image)
+                
 
-        image_path = os.path.join(image_dir, image_file)
-        label_path = os.path.join(label_dir, label_file)
 
-        image = cv2.imread(image_path)
-        height, width, _ = image.shape
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Draw bounding boxes on images")
+    parser.add_argument("--image_dir", type=str, required=True, help="Path to the directory containing images")
+    parser.add_argument("--label_dir", type=str, required=True, help="Path to the directory containing label files")
+    parser.add_argument("--target_dir", type=str, required=True, help="Path to the target directory to save modified label files")
 
-        with open(label_path, 'r') as f:
-            lines = f.readlines()
-
-        for line in lines:
-            class_id, x, y, w, h = map(float, line.strip().split())
-
-            x = int((x - w/2) * width)
-            y = int((y - h/2) * height)
-            w = int(w * width)
-            h = int(h * height)
-
-            cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-        cv2.imshow("Image with Bounding Boxes", image)
-        cv2.waitKey(0)
-
-    cv2.destroyAllWindows()
-
-# Example usage
-image_dir = "/path/to/images"
-label_dir = "/path/to/labels"
-draw_bounding_boxes(image_dir, label_dir)
+    args = parser.parse_args()
+    main(args.image_dir, args.label_dir)
