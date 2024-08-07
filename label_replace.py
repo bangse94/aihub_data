@@ -24,17 +24,19 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
                     lines = f.readlines()
                     
                 with open(os.path.join(target_dir, file), 'w') as f:
+                    new_lines =  []
                     for line in lines:
                         class_id, x, y, w, h = map(float, line.strip().split())
                         if data_num == 224:
-                            if class_id == "0":
-                                class_id = "1"
-                            else:
-                                continue
+                            if int(class_id) == 1:
+                                class_id = 0
+                                new_lines.append(f"{int(class_id)} {x} {y} {w} {h}\n")
                         else:
-                            class_id = "0"
-                        f.write(f"{int(class_id)} {x} {y} {w} {h}\n")
-
+                            class_id = 0
+                            new_lines.append(f"{int(class_id)} {x} {y} {w} {h}\n")
+                    print(new_lines)
+                    for line in new_lines:
+                        f.write(line)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Change label format")
