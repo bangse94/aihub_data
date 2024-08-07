@@ -27,12 +27,12 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
                     for line in lines:
                         class_id, x, y, w, h = map(float, line.strip().split())
                         if data_num == 224:
-                            if class_id == 0:
-                                class_id = 1
+                            if class_id == "0":
+                                class_id = "1"
                             else:
                                 continue
                         else:
-                            class_id = 0
+                            class_id = "0"
                         f.write(f"{int(class_id)} {x} {y} {w} {h}\n")
 
 
