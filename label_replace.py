@@ -19,6 +19,7 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
     for root, dirs, files in tqdm(list(os.walk(source_dir))):
         for file in files:
             if file.endswith(".txt"):
+                print(file)
                 with open(os.path.join(root, file), 'r') as f:
                     lines = f.readlines()
                     
