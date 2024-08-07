@@ -28,11 +28,17 @@ def main(image_dir: str, label_dir: str, target_dir: str) -> None:
                 
                 for line in lines:
                     class_id, x, y, w, h = map(float, line.strip().split())
-                    x1 = int((x - w/2) * w)
-                    y1 = int((y - h/2) * h)
-                    x2 = int((x + w/2) * w)
-                    y2 = int((y + h/2) * h)
-                    image = cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    center_x = int(x * w)
+                    center_y = int(y * h)
+                    width = int(w * w)
+                    height = int(h * h)
+                    
+                    x = int(center_x - width / 2)
+                    y = int(center_y - height / 2)
+                    w = int(center_x + width / 2)
+                    h = int(center_y + height / 2)
+                    
+                    image = cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 
                 cv2.imwrite(os.path.join(target_dir, file), image)
                 
