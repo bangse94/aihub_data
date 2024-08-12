@@ -19,25 +19,26 @@ def main(image_dir: str, label_dir: str, target_dir: str) -> None:
     
     for root, dirs, files in os.walk(image_dir):
         for file in files:
+            print(file)
             if file.endswith(".jpg"):
                 image = cv2.imread(os.path.join(root, file))
-                h, w, _ = image.shape
+                height, width, _ = image.shape
                 
                 with open(os.path.join(label_dir, file.replace(".jpg", ".txt")), 'r') as f:
                     lines = f.readlines()
                 
                 for line in lines:
                     class_id, x, y, w, h = map(float, line.strip().split())
-                    center_x = int(x * w)
-                    center_y = int(y * h)
-                    width = int(w * w)
-                    height = int(h * h)
+                    center_x = int(x * width)
+                    center_y = int(y * height)
+                    bbox_w = int(w * width)
+                    bbox_h = int(h * height)
                     
-                    x = int(center_x - width / 2)
-                    y = int(center_y - height / 2)
-                    w = int(center_x + width / 2)
-                    h = int(center_y + height / 2)
-                    
+                    x = int(center_x - bbox_w / 2)
+                    y = int(center_y - bbox_h / 2)
+                    w = int(bbox_w)
+                    h = int(bbox_h)
+                    print(x,y,w,h)
                     image = cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 
                 cv2.imwrite(os.path.join(target_dir, file), image)

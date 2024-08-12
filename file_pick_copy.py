@@ -34,7 +34,7 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
                     else:
                         shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/images', file))
             else:
-                if file_name_list[2] == "IR":
+                if file_name_list[1] == "IR" or file_name_list[2] == "IR":
                     if file.endswith(".txt"):
                         shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/labels', file))
                     else:
