@@ -34,7 +34,7 @@ def main(config):
         os.makedirs(config.label_dst)
         
     # sarach the image and label
-    dir_list = os.listdir(config.img_src)
+    dir_list = os.listdir(config.src)
     for dir in dir_list:
         if dir in falldown:
             search_file(dir, config.img_dst, config.label_dst)
