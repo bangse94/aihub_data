@@ -24,24 +24,27 @@ def main(image_dir: str, label_dir: str, target_dir: str) -> None:
                 image = cv2.imread(os.path.join(root, file))
                 height, width, _ = image.shape
                 
-                with open(os.path.join(label_dir, file.replace(".jpg", ".txt")), 'r') as f:
-                    lines = f.readlines()
+                try:
+                    with open(os.path.join(label_dir, file.replace(".jpg", ".txt")), 'r') as f:
+                        lines = f.readlines()
                 
-                for line in lines:
-                    class_id, x, y, w, h = map(float, line.strip().split())
-                    center_x = int(x * width)
-                    center_y = int(y * height)
-                    bbox_w = int(w * width)
-                    bbox_h = int(h * height)
+                    for line in lines:
+                        class_id, x, y, w, h = map(float, line.strip().split())
+                        center_x = int(x * width)
+                        center_y = int(y * height)
+                        bbox_w = int(w * width)
+                        bbox_h = int(h * height)
                     
-                    x = int(center_x - bbox_w / 2)
-                    y = int(center_y - bbox_h / 2)
-                    w = int(bbox_w)
-                    h = int(bbox_h)
-                    print(x,y,w,h)
-                    image = cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                        x = int(center_x - bbox_w / 2)
+                        y = int(center_y - bbox_h / 2)
+                        w = int(bbox_w)
+                        h = int(bbox_h)
+                        print(x,y,w,h)
+                        image = cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 
-                cv2.imwrite(os.path.join(target_dir, file), image)
+                    cv2.imwrite(os.path.join(target_dir, file), image)
+                except:
+                    continue
                 
 
 
