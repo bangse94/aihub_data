@@ -62,7 +62,7 @@ def search_file(src_dir: str, img_dst: str, label_dst: str) -> None:
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument("--src", type=str, default="data", help="source directory")
-    args.add_argument("--label_src", type=str, default="label", help="label source directory")
+    args.add_argument("--img_dst", type=str, default="fall_down_img", help="image destination directory")
     args.add_argument("--label_dst", type=str, default="fall_down_label", help="label destination directory")
     
     config = args.parse_args()
