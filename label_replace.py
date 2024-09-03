@@ -1,3 +1,12 @@
+'''
+    This script is used to replace origin label files with modified label files.
+    
+    version: 1.0
+        - AIHub dataset
+        
+    Author: sejun park
+'''
+
 import os
 import os.path
 import argparse

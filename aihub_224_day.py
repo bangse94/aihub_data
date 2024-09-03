@@ -1,9 +1,29 @@
+'''
+    This script is used to convert AIHub 224 Day dataset to YOLO format.
+    
+    version: 1.0
+        - AIHub 224 Day dataset
+        
+    Autrhor: sejun park
+'''
+
+# import libraries
 import os
 import shutil
 import json
 import argparse
 
-def convert_annotation_to_yolo_format(annotation, image_width, image_height):
+def convert_annotation_to_yolo_format(annotation: dict, image_width: float, image_height: float) -> list:
+    '''This function is used to convert the annotation to YOLO format
+    
+    Args:
+        annotation (dict) : annotation data
+        image_width (float) : image width
+        image_height (float) : image height
+        
+    Returns:
+        yolo_annotations (list) : yolo format annotation
+    '''
     yolo_annotations = []
     
     for ann in annotation:
@@ -23,7 +43,13 @@ def convert_annotation_to_yolo_format(annotation, image_width, image_height):
     return yolo_annotations
     
 
-def main(source_dir, target_dir):
+def main(source_dir: str, target_dir: str) -> None:
+    '''This function is used to convert AIHub 224 Day dataset to YOLO format
+    
+    Args:
+        source_dir (str) : source directory
+        target_dir (str) : target directory
+    '''
     os.makedirs(target_dir + "/images", exist_ok=True)
     os.makedirs(target_dir + "/labels", exist_ok=True)
     

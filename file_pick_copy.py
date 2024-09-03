@@ -1,3 +1,12 @@
+'''
+    This script is used to copy files from the original AIHub dataset to the target directory
+    
+    version: 1.0
+        - AIHub dataset
+        
+    Author: sejun park
+'''
+
 import os
 import shutil
 import json
@@ -39,7 +48,8 @@ def main(source_dir: str, target_dir: str, data_num: int) -> None:
                         shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/labels', file))
                     else:
                         shutil.copy(os.path.join(root, file), os.path.join(target_dir+'/images', file))
-    
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Copy files from AIHub dataset")
     parser.add_argument("--source_dir", type=str, required=True, help="Path to the AIHub dataset")

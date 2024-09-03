@@ -1,3 +1,10 @@
+'''
+    This snippet is used to draw bounding boxes on images. The main function takes three arguments: image_dir, label_dir, and target_dir. The image_dir is the path to the directory containing images, the label_dir is the path to the directory containing label files, and the target_dir is the path to the target directory to save modified label files.
+    
+    Author: sejun park
+'''
+
+# import libraries
 import cv2
 import os
 import argparse
